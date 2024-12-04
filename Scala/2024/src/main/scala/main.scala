@@ -13,4 +13,8 @@ def main(): Unit = {
   val day3 = Day3(Source.fromResource("inputs/Day 3.txt").mkString)
   println(s"Ex 3-1: ${day3.ex1}")
   println(s"Ex 3-2: ${day3.ex2}")
+
+  val day4 = Day4(Source.fromResource("inputs/Day 4.txt"))
+  println(s"Ex 4-1: ${day4.ex1}")
+  println(s"Ex 4-1: ${day4.ex2}")
 }
