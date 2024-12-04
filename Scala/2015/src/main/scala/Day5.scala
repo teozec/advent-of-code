@@ -10,27 +10,10 @@ class Day5(source: Source) {
     containsThreeVowels && arePairsOk
   }
 
-  // TODO: fix (not working)
   val ex2: Int = strings.count { string =>
-    val containsRepeatedTwoLetter = string.sliding(2).zipWithIndex.toSeq
-      .groupMap(_._1)(_._2).values // Group by string pattern, keep only the indexes
-      .filter(_.length > 1)
-      .exists(_.sliding(2).exists(pair => pair.last > pair.head + 1))
+    val containsRepeatedTwoLetter = raw"(..).*\1".r.unanchored.matches(string)
+    val containsThreeLetterPattern = raw"(.).\1".r.unanchored.matches(string)
 
-
-    val containsRepeatedTwoLetterNew = string.sliding(2).zipWithIndex.toSeq
-      .groupMap(_._1)(_._2).values
-      .map(_.foldLeft((false, -1)) { (acc, cur) =>
-        val (result, last) = acc
-        (result, last) match {
-          case (_, -1) => (false, cur)
-          case (true, _) => (true, cur)
-          case (false, prev) => (cur > prev + 1, cur)
-        }
-      }._1)
-      .exists(identity)
-
-    val containsThreeLetterPattern = string.sliding(3).exists(s => s.head == s.last)
-    containsRepeatedTwoLetterNew && containsThreeLetterPattern
+    containsRepeatedTwoLetter && containsThreeLetterPattern
   }
 }
