@@ -19,6 +19,6 @@ class Day7Test extends AnyFunSuite {
   }
 
   test("Ex 7-2") {
-    //assert(day7.ex2 == 7)
+    assert(day7.ex2 == 11387)
   }
 }
