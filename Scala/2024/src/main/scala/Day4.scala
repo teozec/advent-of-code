@@ -4,12 +4,20 @@ class Day4(source: Source) {
   private val rows = source.getLines.toSeq
 
   val ex1: Int = {
+    // Calculate / diagonals. To get \ diagonals, call with tab with reversed rows.
     def diagonals(tab: Seq[String]): Seq[String] = {
-      val mainDiagonal = (0 to tab.length - 1).zip(tab.length - 1 to 0 by -1).map((row, col) => tab(row).charAt(col)).mkString
-      val upperDiagonals = (0 until tab.length - 1).map(i => (0 to i).zip(i to 0 by -1).map((row, col) => tab(row).charAt(col)).mkString)
-      val lowerDiagonals = (1 until tab.length).map(i => (i to tab.length - 1).zip(tab.length - 1 to i by -1).map((row, col) => tab(row).charAt(col)).mkString)
+      val maxN = tab.length - 1
 
-      upperDiagonals ++ lowerDiagonals :+ mainDiagonal
+      // Main diagonal (0, 0) to (maxN, maxN)
+      val mainDiagonal = (0 to maxN).zip(maxN to 0 by -1)
+
+      // Upper diagonals: for each row i excluding the last, get the diagonal from (i, 0) to (0, i)
+      val upperDiagonals = (0 until maxN).map(i => (0 to i).zip(i to 0 by -1))
+      // Lower diagonals: for each row i excluding the first, get the diagonal from (i, maxN) to (maxN, i)
+      val lowerDiagonals = (1 until maxN + 1).map(i => (i to maxN).zip(maxN to i by -1))
+
+      (upperDiagonals ++ lowerDiagonals :+ mainDiagonal).map(
+        _.map((row, col) => tab(row).charAt(col)).mkString)
     }
 
     val columns = rows.indices.map(r => rows.map(_.charAt(r)).mkString)
